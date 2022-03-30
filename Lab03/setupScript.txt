@@ -3,6 +3,8 @@
 apt-get update
 apt-get install python3 python3-pip
 pip3 install dask
+pip3 install pandas
+pip3 install fastparquet
 
 gsutil cp gs://pjwstk-bigdata/0.parquet.gzip data.00.parquet.gzip
 gsutil cp gs://pjwstk-bigdata/1.parquet.gzip data.01.parquet.gzip
@@ -15,5 +17,3 @@ gsutil cp gs://pjwstk-bigdata/7.parquet.gzip data.07.parquet.gzip
 gsutil cp gs://pjwstk-bigdata/8.parquet.gzip data.08.parquet.gzip
 gsutil cp gs://pjwstk-bigdata/9.parquet.gzip data.09.parquet.gzip
 gsutil cp gs://pjwstk-bigdata/10.parquet.gzip data.10.parquet.gzip
-
-pip3 install pandas
