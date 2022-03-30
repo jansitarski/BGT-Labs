@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+apt-get update
+apt-get install python3 python3-pip
+pip3 install dask
+
+gsutil cp gs://pjwstk-bigdata/0.parquet.gzip data.00.parquet.gzip
+gsutil cp gs://pjwstk-bigdata/1.parquet.gzip data.01.parquet.gzip
+gsutil cp gs://pjwstk-bigdata/2.parquet.gzip data.02.parquet.gzip
+gsutil cp gs://pjwstk-bigdata/3.parquet.gzip data.03.parquet.gzip
+gsutil cp gs://pjwstk-bigdata/4.parquet.gzip data.04.parquet.gzip
+gsutil cp gs://pjwstk-bigdata/5.parquet.gzip data.05.parquet.gzip
+gsutil cp gs://pjwstk-bigdata/6.parquet.gzip data.06.parquet.gzip
+gsutil cp gs://pjwstk-bigdata/7.parquet.gzip data.07.parquet.gzip
+gsutil cp gs://pjwstk-bigdata/8.parquet.gzip data.08.parquet.gzip
+gsutil cp gs://pjwstk-bigdata/9.parquet.gzip data.09.parquet.gzip
+gsutil cp gs://pjwstk-bigdata/10.parquet.gzip data.10.parquet.gzip
+
+pip3 install pandas
