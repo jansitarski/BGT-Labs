@@ -1,13 +1,11 @@
 import dask.dataframe as dd
-from dask.distributed import Client, Scheduler
+from dask.distributed import Client
 import time
 
 if __name__ == "__main__":
 
     start_time = time.time()
-    #cluster = LocalCluster()
-    scheduler = Scheduler()
-    client = Client(n_workers=1, threads_per_worker=2, memory_limit='4GB')
+    client = Client("10.128.0.2")
 
     df = dd.read_parquet("./data/new_0.parquet", engine="pyarrow")
 
