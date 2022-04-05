@@ -34,6 +34,9 @@ resource "google_compute_instance" "Scheduler" {
   network_interface {
     network    = "default"
     network_ip = "10.128.0.2"
+    access_config {
+      // Ephemeral public IP
+    }
   }
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
@@ -43,7 +46,7 @@ resource "google_compute_instance" "Scheduler" {
   metadata_startup_script = file("./setupScheduler.sh")
 
 }
-/*
+
 resource "google_compute_instance" "Worker" {
   name         = "dask-worker"
   machine_type = "e2-small"
@@ -55,12 +58,16 @@ resource "google_compute_instance" "Worker" {
   network_interface {
     network    = "default"
     network_ip = "10.128.0.2"
+        access_config {
+      // Ephemeral public IP
+    }
   }
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     email  = google_service_account.defaultUser.email
     scopes = ["cloud-platform"]
   }
+    metadata_startup_script = file("./setupWorker.sh")
 }
 
 
@@ -76,11 +83,15 @@ resource "google_compute_instance" "Client" {
   network_interface {
     network    = "default"
     network_ip = "10.128.0.3"
+        access_config {
+      // Ephemeral public IP
+    }
   }
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     email  = google_service_account.defaultUser.email
     scopes = ["cloud-platform"]
   }
+    metadata_startup_script = file("./setupClient.sh")
+
 }
-*/
