@@ -12,5 +12,6 @@ mkdir data
 gsutil -m cp gs://pjwstk-bigdata/*.parquet ./data/.
 sudo cp -r data data2
 sudo cp -r data data3
+sudo cp -r data data4
 
-dask-worker 10.128.0.2:8786
+#dask-worker 10.128.0.2:8786
