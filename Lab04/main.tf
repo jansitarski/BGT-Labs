@@ -53,11 +53,12 @@ resource "google_compute_instance" "Worker" {
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-11"
+      size = 40
     }
   }
   network_interface {
     network    = "default"
-    network_ip = "10.128.0.2"
+    network_ip = "10.128.0.3"
         access_config {
       // Ephemeral public IP
     }
@@ -70,7 +71,6 @@ resource "google_compute_instance" "Worker" {
     metadata_startup_script = file("./setupWorker.sh")
 }
 
-
 resource "google_compute_instance" "Client" {
   name         = "dask-client"
   machine_type = "e2-small"
@@ -78,11 +78,12 @@ resource "google_compute_instance" "Client" {
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-11"
+      size = 40
     }
   }
   network_interface {
     network    = "default"
-    network_ip = "10.128.0.3"
+    network_ip = "10.128.0.5"
         access_config {
       // Ephemeral public IP
     }
