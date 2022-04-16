@@ -1,5 +1,5 @@
 touch started.txt
-sudo apt-get install postgresql pv
+sudo apt-get -y install postgresql pv
 sudo -u postgres createuser musicbrainz
 sudo -u postgres createdb music
 
