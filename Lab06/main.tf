@@ -1,11 +1,4 @@
 terraform {
-    cloud {
-    organization = "JanSitarski"
-
-    workspaces {
-      name = "BGTLab6"
-    }
-  }
   required_providers {
     google = {
       source  = "hashicorp/google"
@@ -19,15 +12,6 @@ provider "google" {
   credentials = "gcloudcredentials.json"
   region      = "us-central1"
   zone        = "us-central1-a"
-}
-
-resource "google_service_account" "defaultUser" {
-  account_id   = "terraformcreated"
-  display_name = "terraformCreated"
-}
-
-data "template_file" "default" {
-  template = file("${path.module}/setupAndRun.sh")
 }
 
 resource "google_compute_instance" "FirstMachine" {
@@ -45,11 +29,6 @@ resource "google_compute_instance" "FirstMachine" {
     access_config {
       // Ephemeral public IP
     }
-  }
-  service_account {
-    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    email  = google_service_account.defaultUser.email
-    scopes = ["cloud-platform"]
   }
   metadata_startup_script = file("./SetupAndRun.sh")
 
