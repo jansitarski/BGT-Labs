@@ -9,7 +9,6 @@ terraform {
 
 provider "google" {
   project     = "BGT-Labs-20701"
-  credentials = "gcloudcredentials.json"
   region      = "us-central1"
   zone        = "us-central1-a"
 }
