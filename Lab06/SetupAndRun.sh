@@ -4,7 +4,8 @@ sudo -u postgres createuser musicbrainz
 sudo -u postgres createdb music
 
 gsutil -m cp gs://pjwstk-bigdata/db.tar .
-sudo sh -c "sudo pv db.tar | sudo -u postgres pg_restore -d music > started.txt"
+sudo -u postgres pg_restore -c -d music -v db.tar -w
+touch done.txt
 
 for i in {1..5}; do
   sudo -u postgres psql -d music -c '\timing' -c '
