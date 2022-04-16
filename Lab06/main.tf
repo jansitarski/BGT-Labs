@@ -8,13 +8,13 @@ terraform {
 }
 
 provider "google" {
-  project     = "BGT-Labs-20701"
+  project     = "bgt-labs-20701"
   region      = "us-central1"
   zone        = "us-central1-a"
 }
 
-resource "google_compute_instance" "FirstMachine" {
-  name         = "firstMachine"
+resource "google_compute_instance" "firstmachine" {
+  name         = "firstmachine"
   machine_type = "n2-standard-2"
 
   boot_disk {
