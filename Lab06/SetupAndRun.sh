@@ -24,5 +24,5 @@ FROM (SELECT track.id, track.name FROM musicbrainz.track) tr
 
 
 for i in {1..6}; do
-  sudo sh -c 'sudo -u postgres psql -d music -c "\timing" -c sql_script"'
+  sudo sh -c 'sudo -u postgres psql -d music -c "\timing" -c sql_script'
 done
