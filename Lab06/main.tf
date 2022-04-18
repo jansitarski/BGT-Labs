@@ -31,7 +31,7 @@ resource "google_compute_instance" "firstmachine" {
   }
   metadata_startup_script = file("./SetupAndRun.sh")
 
-}
+}/*
 resource "google_compute_instance" "secondmachine" {
   name         = "secondmachine"
   machine_type = "n2-standard-4"
@@ -51,7 +51,7 @@ resource "google_compute_instance" "secondmachine" {
   metadata_startup_script = file("./SetupAndRun.sh")
 
 }
-
+*/
 resource "google_compute_instance" "thirdmachine" {
   name         = "thirdmachine"
   machine_type = "n2-standard-2"
@@ -71,7 +71,7 @@ resource "google_compute_instance" "thirdmachine" {
   metadata_startup_script = file("./SetupAndRun.sh")
 
 }
-
+/*
 resource "google_compute_instance" "fourthmachine" {
   name         = "fourthmachine"
   machine_type = "n2-standard-4"
@@ -91,4 +91,4 @@ resource "google_compute_instance" "fourthmachine" {
   metadata_startup_script = file("./SetupAndRun.sh")
 
 }
-
+*/
