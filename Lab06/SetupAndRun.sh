@@ -7,7 +7,7 @@ sudo -u postgres createdb music
 gsutil -m cp gs://pjwstk-bigdata/db.tar .
 sudo -u postgres pg_restore -c -d music -v db.tar -w
 
-alias sql_script = 'SELECT tr.name  AS "Track Name",
+sql_script='SELECT tr.name  AS "Track Name",
        re.name  AS "Album Name",
        art.name AS "Artist Name",
        ar1.name AS "Artist Country",
@@ -19,8 +19,6 @@ FROM (SELECT track.id, track.name FROM musicbrainz.track) tr
          JOIN (SELECT release_country.release, release_country.country FROM musicbrainz.release_country) rel_c
               ON re.id = rel_c.release
          JOIN (SELECT area.id, area.name FROM musicbrainz.area) ar2 ON rel_c.country = ar2.id limit 1000000000;'
-
-
 for i in {1..6}; do
-  sudo sh -c 'sudo -u postgres psql -d music -c "\timing" -c sql_script >> results.txt'
+  sudo sh -c 'sudo -u postgres psql -d music -c "\timing" -c "$sql_script" >> res.txt'
 done
