@@ -1,13 +1,11 @@
 mkdir database
 cd ./database
-touch started.txt
 sudo apt-get -y install postgresql pv
 sudo -u postgres createuser musicbrainz
 sudo -u postgres createdb music
 
 gsutil -m cp gs://pjwstk-bigdata/db.tar .
 sudo -u postgres pg_restore -c -d music -v db.tar -w
-touch done.txt
 
 alias sql_script = 'SELECT tr.name  AS "Track Name",
        re.name  AS "Album Name",
@@ -24,5 +22,5 @@ FROM (SELECT track.id, track.name FROM musicbrainz.track) tr
 
 
 for i in {1..6}; do
-  sudo sh -c 'sudo -u postgres psql -d music -c "\timing" -c sql_script'
+  sudo sh -c 'sudo -u postgres psql -d music -c "\timing" -c sql_script >> results.txt'
 done
