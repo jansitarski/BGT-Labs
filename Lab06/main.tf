@@ -8,9 +8,15 @@ terraform {
 }
 
 provider "google" {
+  credentials = "creds.json"
   project     = "bgt-labs-20701"
   region      = "us-central1"
   zone        = "us-central1-a"
+}
+
+variable "setup_script" {
+  type = string
+  default = "./Setup.sh"
 }
 
 resource "google_compute_instance" "firstmachine" {
@@ -29,9 +35,10 @@ resource "google_compute_instance" "firstmachine" {
       // Ephemeral public IP
     }
   }
-  metadata_startup_script = file("./SetupAndRun.sh")
+  metadata_startup_script = file(var.setup_script)
 
-}/*
+}
+
 resource "google_compute_instance" "secondmachine" {
   name         = "secondmachine"
   machine_type = "n2-standard-4"
@@ -48,10 +55,10 @@ resource "google_compute_instance" "secondmachine" {
       // Ephemeral public IP
     }
   }
-  metadata_startup_script = file("./SetupAndRun.sh")
+  metadata_startup_script = file(var.setup_script)
 
 }
-*/
+
 resource "google_compute_instance" "thirdmachine" {
   name         = "thirdmachine"
   machine_type = "n2-standard-2"
@@ -68,10 +75,10 @@ resource "google_compute_instance" "thirdmachine" {
       // Ephemeral public IP
     }
   }
-  metadata_startup_script = file("./SetupAndRun.sh")
+  metadata_startup_script = file(var.setup_script)
 
 }
-/*
+
 resource "google_compute_instance" "fourthmachine" {
   name         = "fourthmachine"
   machine_type = "n2-standard-4"
@@ -88,7 +95,6 @@ resource "google_compute_instance" "fourthmachine" {
       // Ephemeral public IP
     }
   }
-  metadata_startup_script = file("./SetupAndRun.sh")
+  metadata_startup_script = file(var.setup_script)
 
 }
-*/
