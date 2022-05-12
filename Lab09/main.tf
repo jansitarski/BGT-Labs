@@ -43,7 +43,7 @@ resource "google_compute_instance" "headnode" {
   }
   network_interface {
     subnetwork = "ray-subnetwork"
-    network_ip = "192.168.0.1"
+    network_ip = "192.168.0.100"
     access_config {
       // Ephemeral public IP
     }
