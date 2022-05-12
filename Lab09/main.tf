@@ -9,9 +9,9 @@ terraform {
 
 provider "google" {
   #credentials = "creds.json"
-  project     = "bgt-labs-20701"
-  region      = "us-central1"
-  zone        = "us-central1-a"
+  project = "bgt-labs-20701"
+  region  = "us-central1"
+  zone    = "us-central1-a"
 }
 
 variable "setup_script" {
@@ -25,6 +25,7 @@ resource "google_compute_network" "ray-network" {
 }
 
 resource "google_compute_subnetwork" "ray-subnetwork" {
+  depends_on    = [google_compute_network.ray-network]
   name          = "ray-subnetwork"
   ip_cidr_range = "192.168.0.0/24"
   region        = "us-central1"
@@ -34,6 +35,7 @@ resource "google_compute_subnetwork" "ray-subnetwork" {
 resource "google_compute_instance" "headnode" {
   name         = "headnode"
   machine_type = "e2-micro"
+  depends_on   = [google_compute_subnetwork.ray-subnetwork]
 
   boot_disk {
     initialize_params {
@@ -53,7 +55,7 @@ resource "google_compute_instance" "headnode" {
 
 resource "google_compute_instance" "workernode" {
   count        = 2
-  depends_on = [google_compute_instance.headnode]
+  depends_on   = [google_compute_instance.headnode]
   name         = "workernode-${count.index}"
   machine_type = "e2-micro"
 
@@ -65,7 +67,7 @@ resource "google_compute_instance" "workernode" {
   }
   network_interface {
     subnetwork = "ray-subnetwork"
-    network_ip = "192.168.0.${count.index+1}"
+    network_ip = "192.168.0.${count.index}0"
     access_config {
       // Ephemeral public IP
     }
