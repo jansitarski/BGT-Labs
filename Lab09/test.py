@@ -1,24 +1,46 @@
 #!/usr/bin/env python3
 from google.cloud import datastore
-#import ray
-
+import ray
 import time
-# Create & store an entity
+from faker import Faker
 
-#@ray.remote
+ids = []
+ray.init(address='192.168.0.10:6379')
+
+@ray.remote
 def f():
     datastore_client = datastore.Client(project="bgt-labs-20701")
-    # The kind for the new entity
-    kind = 'namespacetest2'
-    # The name/ID for the new entity
-    ID = '5644004762845194'
-    # The Cloud Datastore key for the new entity
-    task_key = datastore_client.key(kind, ID)
-    # Prepares the new entity
-    testEntity = datastore.Entity(key=task_key)
-    testEntity['Name'] = 'Rick Sanchez'
-    testEntity['phone'] = '123123123'
-    # Saves the entity
-    datastore_client.put(testEntity)
+    kind = 'BGTLab9'
+    task_key = datastore_client.key(kind)
+    fake = Faker()
+    for _ in range(100):
+        entity = datastore.Entity(key=task_key)
+        entity['Name'] = fake.first_name()
+        entity['Last Name'] = fake.last_name()
+        entity['Address'] = fake.last_name()
+        entity['Post Code'] = fake.postcode()
+        entity['Delivery Address'] = fake.street_address()
+        entity['Amount'] = fake.pricetag()
+        datastore_client.put(entity)
 
-f()
+completions_per_timestamp = []
+
+for _ in range(100):
+    print('iteration:', _)
+    ids.append(f.remote())
+
+ready, not_ready = ray.wait(ids)
+all_scheaduled = not_ready
+while True:
+    _, not_ready = ray.wait(ids)
+    print('Not Ready length:', len(not_ready))
+    print('Done:', len(all_scheaduled) - len(not_ready))
+    print('Done in 10s:', len(ids) - len(not_ready))
+    completions_per_timestamp.append(len(ids)-len(not_ready))
+    print()
+    time.sleep(10)
+    ids = not_ready
+    if len(not_ready) == 0:
+        break
+
+print(completions_per_timestamp)

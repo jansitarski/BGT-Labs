@@ -76,7 +76,7 @@ resource "google_compute_instance" "headnode" {
 }
 
 resource "google_compute_instance" "workernode" {
-  count        = 2
+  count        = 9
   depends_on   = [google_compute_instance.headnode]
   name         = "workernode-${count.index}"
   machine_type = "e2-micro"
@@ -89,9 +89,6 @@ resource "google_compute_instance" "workernode" {
   network_interface {
     subnetwork = "ray-subnetwork"
     network_ip = "192.168.0.${count.index+2}0"
-    access_config {
-      // Ephemeral public IP
-    }
   }
   metadata_startup_script = file(var.setup_script_worker)
   tags = ["http-server","https-server"]
