@@ -9,9 +9,9 @@ terraform {
 
 provider "google" {
   credentials = "creds.json"
-  project = "bgt-labs-20701"
-  region  = "us-central1"
-  zone    = "us-central1-a"
+  project     = "bgt-labs-20701"
+  region      = "us-central1"
+  zone        = "us-central1-a"
 }
 
 variable "setup_script_head" {
@@ -29,22 +29,39 @@ resource "google_compute_network" "ray-network" {
 }
 
 resource "google_compute_subnetwork" "ray-subnetwork" {
-  depends_on    = [google_compute_network.ray-network]
-  name          = "ray-subnetwork"
-  ip_cidr_range = "192.168.0.0/24"
-  region        = "us-central1"
-  network       = google_compute_network.ray-network.id
+  depends_on               = [google_compute_network.ray-network]
+  name                     = "ray-subnetwork"
+  ip_cidr_range            = "192.168.0.0/24"
+  region                   = "us-central1"
+  network                  = google_compute_network.ray-network.id
   private_ip_google_access = true
+}
+resource "google_compute_router" "ray-router" {
+  name    = "ray-router"
+  network = google_compute_network.ray-network.name
+  bgp {
+    asn = 64514
+  }
+}
+
+module "cloud-nat" {
+  name       = "ray-nat"
+  source     = "terraform-google-modules/cloud-nat/google"
+  version    = "2.2.0"
+  project_id = "bgt-labs-20701"
+  region     = "us-central1"
+  router     = google_compute_router.ray-router.name
+  depends_on = [google_compute_router.ray-router]
 }
 
 resource "google_compute_firewall" "ssh-rule" {
-  name = "ssh-rule"
-  network = google_compute_network.ray-network.name
+  name          = "ssh-rule"
+  network       = google_compute_network.ray-network.name
   allow {
     protocol = "tcp"
     #ports = ["22","6379"]
   }
-  target_tags = ["https-server"]
+  target_tags   = ["https-server"]
   source_ranges = ["0.0.0.0/0"]
 }
 resource "google_compute_instance" "headnode" {
@@ -66,7 +83,7 @@ resource "google_compute_instance" "headnode" {
     }
   }
   metadata_startup_script = file(var.setup_script_head)
-  tags = ["http-server","https-server"]
+  tags                    = ["http-server", "https-server"]
 
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
@@ -76,10 +93,10 @@ resource "google_compute_instance" "headnode" {
 }
 
 resource "google_compute_instance" "workernode" {
-  count        = 9
-  depends_on   = [google_compute_instance.headnode]
-  name         = "workernode-${count.index}"
-  machine_type = "e2-micro"
+  count                   = 9
+  depends_on              = [google_compute_instance.headnode]
+  name                    = "workernode-${count.index}"
+  machine_type            = "e2-micro"
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-11"
@@ -91,7 +108,7 @@ resource "google_compute_instance" "workernode" {
     network_ip = "192.168.0.${count.index+2}0"
   }
   metadata_startup_script = file(var.setup_script_worker)
-  tags = ["http-server","https-server"]
+  tags                    = ["http-server", "https-server"]
 
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
@@ -103,11 +120,12 @@ resource "google_compute_instance" "workernode" {
 resource "google_service_account" "ray-service-account" {
   account_id   = "ray-service-account"
   display_name = "ray-service-account"
+  depends_on   = [google_compute_network.ray-network]
 }
 
 resource "google_project_iam_member" "datastore_owner_binding" {
-  project = "bgt-labs-20701"
-  role    = "roles/datastore.owner"
-  member  = "serviceAccount:${google_service_account.ray-service-account.email}"
+  project    = "bgt-labs-20701"
+  role       = "roles/datastore.owner"
+  member     = "serviceAccount:${google_service_account.ray-service-account.email}"
   depends_on = [google_service_account.ray-service-account]
 }

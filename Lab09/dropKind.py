@@ -1,8 +1,7 @@
 import ray
-import time
-from faker import Faker
 from google.cloud import datastore
 
+@ray.remote
 def delete_all_test_data():
     """Function for Deleting all the Test data"""
     kind = 'BGTLab9'
@@ -18,4 +17,4 @@ def delete_all_test_data():
             datastore_client.delete(entity.key)
     print('done')
 
-delete_all_test_data()
+[delete_all_test_data.remote() for _ in range(10)]
