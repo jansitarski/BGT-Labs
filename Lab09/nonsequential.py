@@ -25,7 +25,7 @@ def f():
         entity['Delivery Address'] = fake.street_address()
         entity['Amount'] = fake.pricetag()
         datastore_client.put(entity)
-        return socket.gethostbyname(socket.gethostname())
+    return socket.gethostbyname(socket.gethostname())
 
 
 ids = [f.remote() for _ in range(100)]
