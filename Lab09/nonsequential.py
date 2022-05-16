@@ -11,7 +11,6 @@ ray.init(address='192.168.0.10:6379')
 
 @ray.remote
 def f():
-    time.sleep(0.1)
     datastore_client = datastore.Client(project="bgt-labs-20701")
     kind = 'BGTLab9'
     task_key = datastore_client.key(kind)
@@ -20,36 +19,34 @@ def f():
         entity = datastore.Entity(key=task_key)
         entity['Name'] = fake.first_name()
         entity['Last Name'] = fake.last_name()
-        entity['Address'] = fake.last_name()
         entity['Post Code'] = fake.postcode()
         entity['Delivery Address'] = fake.street_address()
         entity['Amount'] = fake.pricetag()
         datastore_client.put(entity)
-    return socket.gethostbyname(socket.gethostname())
 
 
 ids = [f.remote() for _ in range(100)]
-ip_addresses = ray.get(ids)
 
-print('Tasks assigned')
-for ip_address, num_tasks in Counter(ip_addresses).items():
-    print('    {} tasks on {}'.format(num_tasks, ip_address))
-
-ready, not_ready = ray.wait(ids)
+ready, not_ready = ray.wait(ids,timeout=0)
 all_scheaduled = not_ready
+done_in_time = all_scheaduled
 
-starttime = time.time()
+lasttime = time.time()
 completions_per_timestamp = []
 
 while True:
-    time.sleep(0.01)
-    ready, not_ready = ray.wait(ids)
+    ready, not_ready = ray.wait(ids, timeout=0)
     #print('Not Ready length:', len(not_ready))
     #print('Done:', len(all_scheaduled) - len(not_ready))
-    if (int(time.time() - starttime)%10) == 1:
-        time.sleep(1)
-        print('Done in 10s:', len(all_scheaduled) - len(not_ready))
-        completions_per_timestamp.append(len(all_scheaduled) - len(not_ready))
+    #print(time.time() - lasttime)
+    if time.time() - lasttime >= 10:
+        print('Not Ready length:', len(not_ready))
+        print('Done:', len(all_scheaduled) - len(not_ready))
+        print('Done in 10s:', len(done_in_time) - len(not_ready))
+        print()
+        completions_per_timestamp.append(len(done_in_time) - len(not_ready))
+        done_in_time = not_ready
+        lasttime = time.time()
     ids = not_ready
     if len(not_ready) == 0:
         break
