@@ -1,4 +1,13 @@
 # BGT-Labs
+#### 740/800
+### Lab09 ?/100
+<a href="Lab09/BGT09.pdf">Task</a><br>
+<a href="Lab09/BGT09_result.pdf">Result</a>
+### Lab08 100/100
+<a href="Lab08/BGT08.pdf">Task</a><br>
+### Lab07 100/100
+<a href="Lab07/BGT07.pdf">Task</a><br>
+<a href="Lab07/BGT07_result.pdf">Result</a>
 ### Lab06 100/100
 <a href="Lab06/BGT06.pdf">Task</a><br>
 <a href="Lab06/BGT06_result.pdf">Result</a>
