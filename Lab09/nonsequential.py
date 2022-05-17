@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import socket
-from collections import Counter
-
 from google.cloud import datastore
 import ray
 import time
@@ -12,7 +9,7 @@ ray.init(address='192.168.0.10:6379')
 @ray.remote
 def f():
     datastore_client = datastore.Client(project="bgt-labs-20701")
-    kind = 'BGTLab9'
+    kind = 'BGTNonSequential'
     task_key = datastore_client.key(kind)
     fake = Faker()
     for i in range(100):
@@ -36,9 +33,6 @@ completions_per_timestamp = []
 
 while True:
     ready, not_ready = ray.wait(ids, timeout=0)
-    #print('Not Ready length:', len(not_ready))
-    #print('Done:', len(all_scheaduled) - len(not_ready))
-    #print(time.time() - lasttime)
     if time.time() - lasttime >= 10:
         print('Not Ready length:', len(not_ready))
         print('Done:', len(all_scheaduled) - len(not_ready))
