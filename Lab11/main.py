@@ -20,9 +20,10 @@ def nonsequential_median():
     query.order = ["Amount"]
     query.keys_only()
     count = 0
-    for entity in query_iter:
+    for _ in query_iter:
         count += 1
     # Get middle
     #offset in non 10001 is int(5000.5)+1
+    # set(int(v/2-0.5)+1, int(v/2+0.4)+1)
     print(count)
-    query_iter.offset(count/2)
+    query_iter[10]
