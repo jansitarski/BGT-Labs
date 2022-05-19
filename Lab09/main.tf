@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "google" {
-  credentials = "creds.json"
+  #credentials = "creds.json"
   project     = "bgt-labs-20701"
   region      = "us-central1"
   zone        = "us-central1-a"
