@@ -23,6 +23,6 @@ def nonsequential_median():
     for entity in query_iter:
         count += 1
     # Get middle
-
+    #offset in non 10001 is int(5000.5)+1
     print(count)
     query_iter.offset(count/2)
