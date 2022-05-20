@@ -1,0 +1,20 @@
+indexes:
+- kind: BGTNonSequential
+  properties:
+  - name: LastName
+  - name: Amount
+- kind: BGTSequential
+  properties:
+  - name: LastName
+  - name: Amount
+
+- kind: BGTNonSequential
+  properties:
+  - name: Address
+  - name: PostCode
+- kind: BGTSequential
+  properties:
+  - name: Address
+  - name: PostCode
+# gcloud datastore indexes create index.yaml
+# gcloud datastore indexes cleanup index.yaml

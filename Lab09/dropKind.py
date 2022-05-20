@@ -4,8 +4,8 @@ from google.cloud import datastore
 @ray.remote
 def delete_all_test_data():
     """Function for Deleting all the Test data"""
-    #kind = 'BGTNonSequential'
-    kind = 'BGTSequentialLab11'
+    kind = 'BGTNonSequential'
+    #kind = 'BGTSequential'
     datastore_client = datastore.Client(project="bgt-labs-20701")
     fetch_limit = 100
     print('-- Deleting all entities --')

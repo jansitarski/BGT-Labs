@@ -17,7 +17,7 @@ def f():
         entity['Name'] = fake.first_name()
         entity['LastName'] = fake.last_name()
         entity['PostCode'] = fake.postcode()
-        entity['DeliveryAddress'] = fake.street_address()
+        entity['DeliveryAddress'] = fake.street_name()
         entity['Amount'] = fake.pyfloat(right_digits=2, positive=True, min_value=1.0, max_value=10000.0)
         datastore_client.put(entity)
 
