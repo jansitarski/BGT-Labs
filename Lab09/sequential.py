@@ -15,9 +15,9 @@ def f(max_key):
         task_key = datastore_client.key(kind,max_key-i)
         entity = datastore.Entity(key=task_key)
         entity['Name'] = fake.first_name()
-        entity['Last Name'] = fake.last_name()
-        entity['Post Code'] = fake.postcode()
-        entity['Delivery Address'] = fake.street_address()
+        entity['LastName'] = fake.last_name()
+        entity['PostCode'] = fake.postcode()
+        entity['DeliveryAddress'] = fake.street_address()
         entity['Amount'] = fake.pyfloat(right_digits=2, positive=True, min_value=1.0, max_value=10000.0)
         datastore_client.put(entity)
 
