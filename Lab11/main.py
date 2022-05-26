@@ -46,7 +46,7 @@ def median(kind):
 def big_earners(kind, name):
     query = datastore_client.query(kind=kind)
     query.add_filter('LastName', "=", name)
-    query.add_filter('Amount', ">", median(kind))
+    query.add_filter('Amount', ">", median(kind)) # Could add projection amount
     query_iter = query.fetch()
     for entity in query_iter:
         print(entity)
