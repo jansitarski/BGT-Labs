@@ -1,6 +1,6 @@
 # BGT-Labs
-#### 940/1000
-### Lab11 ?/100
+#### 1040/1100
+### Lab11 100/100
 <a href="Lab11/BGT11.pdf">Task</a><br>
 <a href="Lab11/BGT11_result.pdf">Result</a>
 ### Lab10 100/100
