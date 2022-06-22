@@ -1,5 +1,11 @@
 # BGT-Labs
-#### 1040/1100
+#### 1340/1400 - 95%
+### Lab14 100/100
+<a href="Lab14/BGT14.pdf">Task</a><br>
+### Lab13 100/100
+<a href="Lab13/BGT13.pdf">Task</a><br>
+### Lab12 100/100
+<a href="Lab12/BGT12.pdf">Task</a><br>
 ### Lab11 100/100
 <a href="Lab11/BGT11.pdf">Task</a><br>
 <a href="Lab11/BGT11_result.pdf">Result</a>
